@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<p>{{wod.name}} 디테일</p>
+<p>{{wod.content}}</p>
+<img src="{{wod.image.url}}" alt="wod image">
+
+<p>{{wod.time}}</p>
+<p>{{wod.cate_score}}</p>
+<p>{{Wod.cate_ppl}}</p>
+<p>{{wod.cate_special}}</p>
+<p>포함된 동작:</p>
+
+<ul> 
+    {% for e in exercises %}
+        <li>{{e.name}}</li>
+
+    {% endfor %}
+</ul>
+
+<p>포함된 동작:</p>
+
+<ul> 
+    {% for e in equips %}
+        <li>{{e.name}}</li>
+
+    {% endfor %}
+</ul>
+
+<form id="likes_form" class="" data-wod-id="{{ wod.pk }}">
+  {% csrf_token %}
+  {% if request.user.is_authenticated %}
+    <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded">
+      <i class="bi bi-heart{% if request.user in wod.like_users.all %}-fill{% endif %} text-danger"></i>
+    </button>
+  {% else %}
+    <button class="border border-red-500 text-red-500 py-1 px-2 sm:py-2 sm:px-4 rounded cursor-not-allowed opacity-50" disabled>
+      <i class="bi bi-heart"></i>
+    </button>
+  {% endif %}
+</form>
+<span class="dark:text-gray-400" id="wod-like-count">{{ wod.like_users.all.count }}</span>
+
+
+<form id="bookmark_form" class="me-2" data-wod-id="{{ wod.pk }}">
+  {% csrf_token %}
+  {% if request.user.is_authenticated %}
+    <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded dark:border-gray-50 dark:text-gray-50 dark:hover:bg-gray-50 dark:hover:text-black">
+      <i class="bi bi-bookmark{% if request.user in wod.bookmark_users.all %}-fill{% endif %} text-danger"></i>
+    </button>
+  {% else %}
+    <button class="border border-black text-black-500 py-1 px-2 sm:py-2 sm:px-4 rounded cursor-not-allowed opacity-50" disabled>
+      <i class="bi bi-bookmark"></i>
+    </button>
+  {% endif %}
+</form>
+{% if request.user == wod.user or request.user.is_superuser %}
+<a href="{% url 'wods:delete' wod.pk %}">삭제</a>
+{% endif %}
+{% endblock content %}
+

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <p> '{{keyword}}' 이/가 포함된 와드 검색 결과입니다. </p>
+    <div class="flex">
+        {% for wod in name_wods|slice:":4" %}
+        <div>
+            <a class="inline-block" href="{% url 'wods:detail' wod.pk %}">
+              <div class="">
+                <div class="class">
+                  <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" src="{{ wod.image.url }}"  alt="">
+                </div>
+                <div class="">
+                  <h5 class="font-bold">{{ wod.name }}</h5>
+                  
+                      <span class="dark:text-gray-200">
+                        <i class="bi bi-eye ms-2">
+                        {% comment %} </i>{{wod.views}} {% endcomment %}
+                      </span>
+                    </div>
+                    <!--기타정보 -->
+                    <div class="flex items-center justify-center gap-2">
+                      <span class="font-normal text-gray-700 dark:text-gray-200">
+                        {{wod.cate_score}}
+                        {{wod.time}}
+                        {{wod.cate_special}} 
+                      </span>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div>
+    <p> '{{keyword}}' 이/가 동작에 포함된 와드 검색 결과입니다. </p>
+    <div class="flex">
+        {% for wod in exercise_wods|slice:":4" %}
+        <div>
+            <a class="inline-block" href="{% url 'wods:detail' wod.pk %}">
+              <div class="w-36 sm:w-72 bg-white dark:bg-gray-600">
+                <div class="class">
+                  <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" src="{{ wod.image.url }}"  alt="">
+                </div>
+                <div class="py-5 sm:p-5 text-center">
+                  <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ wod.name }}</h5>
+                  
+                      <span class="dark:text-gray-200">
+                        <i class="bi bi-eye ms-2">
+                        {% comment %} </i>{{wod.views}} {% endcomment %}
+                      </span>
+                    </div>
+                    <!--기타정보 -->
+                    <div class="flex items-center justify-center gap-2">
+                      <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                      <span class="font-normal text-gray-700 dark:text-gray-200">
+                        {{wod.cate_score}}
+                        {{wod.time}}
+                        {{wod.cate_special}} 
+                      </span>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+

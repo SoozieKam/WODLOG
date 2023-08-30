@@ -1,0 +1,224 @@
+{% load static %}
+
+{% comment %} <div class="text-center py-6 pt-10 dark:bg-gray-700">
+  <a href="{% url 'wods:index' %}" class="inline-block">
+    <img src="{% static 'image/WODLOG_logo.png' %}" class="h-50 dark:hidden" alt="Flowbite Logo"/>
+  </a>
+</div>
+
+<nav class="bg-white border-gray-200 dark:bg-gray-900 border-b">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    
+    <div class="flex md:order-2">
+
+      {% comment %} <form action="{% url 'wods:search'  %}" method="get">
+        <input name="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">검색</button>
+      </form> 
+
+      <form action="{%url 'wods:search' %}" method ="get">
+        <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Search</span>
+        </button>
+      
+        <div class="relative hidden md:block">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-6 h-6 text-gray-500" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Search icon</span>
+          </div>
+          <input type="text" name="keyword" id="keyword" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-[#2e8b57] focus:border-[#2e8b57] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요...">
+        </div>
+        <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
+          <span class="sr-only">Open menu</span>
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </form>
+      
+      <div class="ms-2">
+        {% if not request.user.is_authenticated %}
+          <!-- 로그인 안했을때 -->
+          <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center pt-0.5" type="button">
+            <i class="bi bi-person text-3xl "></i>
+          </button>
+
+          <!-- login/ join Dropdown menu -->
+          <div id="dropdownInformation" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+              <li>
+                <a href="{% url 'accounts:login' %}" class="font-bold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">LOGIN</a>
+              </li>
+              <li>
+                <a href="{% url 'accounts:signup' %}" class="font-bold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">JOIN</a>
+              </li>
+            </ul>
+          </div>
+
+        {% else %}
+          <!-- 로그인 했을때 -->
+          <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center " type="button">
+            <div class="flex items-center content-center gap-1">
+                <img class="w-9 h-9 object-cover rounded-full mt-1" src="{{ request.user.profile_image.url }}"  alt="profile">
+              <p class="hidden sm:block text-[#2f4f4f] font-bold dark:text-gray-400">{{request.user.nickname}}</p>
+            </div>
+          </button>
+
+          <!-- logout/ profile / settings menu -->
+          <div id="dropdownInformation" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+        
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+              <li>
+                <a href="{% url 'accounts:profile' request.user %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold ">My Profile</a>
+              </li>
+              <li>
+                <a href="{% url 'accounts:update' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold">Settings</a>
+              </li>
+            </ul>
+            <div class="py-2">
+              <a data-modal-target="popup-modal" data-modal-toggle="popup-modal" href="{% url 'accounts:logout' %}" class=" font-bold block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+     <!-- menu bar -->
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
+      <div class="relative mt-3 md:hidden">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <form action="{%url 'wods:search' %}" method ="get">
+          <input type="text" name="keyword" id="keyword" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-[#2e8b57] focus:border-[#2e8b57] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요...">
+        </form>
+      </div>
+      <div class="md:ml-36">
+        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <li>
+            <a href="{% url 'wods:index' %}" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#2e8b57] md:p-0 md:dark:hover:text-green-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">WODS</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#2e8b57] md:p-0 dark:text-white md:dark:hover:text-green-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">LOGS</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#2e8b57] md:p-0 dark:text-white md:dark:hover:text-green-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">LIVE FEEDBACK</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#2e8b57] md:p-0 dark:text-white md:dark:hover:text-green-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">COMMUNITY</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav> {% endcomment %}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+       
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a href="{% url 'wods:index' %}">
+            <img class="d-inline-block align-text-top" style="  width: 150px;
+            " src="{% static 'image/WODLOG_logo.png' %}" alt="wodlog_logo">
+          </a>         
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">와드 추천</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">운동 일지</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">[LIVE] 운동 피드백</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">커뮤니티</a>
+        </li> 
+
+
+        {% comment %} <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            운동 일지
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="#">ㅇ</a></li>
+            <li><a class="dropdown-item" href="#">ㅍㄴ</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            [LIVE] 운동 피드백
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="#">ㅁ</a></li>
+            <li><a class="dropdown-item" href="#">ㅁ</a></li>
+          </ul>
+        </li> {% endcomment %}
+       
+      
+      <form class="d-flex" action="{% url 'wods:search'  %}" method="get">
+        <input name="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">검색</button>
+      </form>
+    </div>
+
+
+    <div class="ms-2">
+      {% if not request.user.is_authenticated %}
+        <!-- 로그인 안했을때 -->
+        <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center pt-0.5" type="button">
+          <i class="bi bi-person text-3xl "></i>
+        </button>
+
+        <!-- login/ join Dropdown menu -->
+        <div id="dropdownInformation" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+            <li>
+              <a href="{% url 'accounts:login' %}" class="font-bold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">LOGIN</a>
+            </li>
+            <li>
+              <a href="{% url 'accounts:signup' %}" class="font-bold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">JOIN</a>
+            </li>
+          </ul>
+        </div>
+
+      {% else %}
+        <!-- 로그인 했을때 -->
+
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="flex items-center content-center gap-1">
+              <img class="object-cover rounded-full mt-1" style="width:40px; height:40px" src="{{ request.user.profile_image.url }}" alt="profile">
+            <p class="hidden sm:block text-[#2f4f4f] font-bold dark:text-gray-400">{{request.user.nickname}}</p>
+            </div>          
+          </button>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li>
+                <a href="{% url 'accounts:profile' request.user %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold ">My Profile</a>
+              </li>
+              <li>
+                <a href="{% url 'accounts:update' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold">Settings</a>
+              </li>
+              <li>
+                <a href="{% url 'accounts:logout' %}">Log out</a>
+              </li>
+             
+          </ul>
+        </div> 
+        {% endif %}
+    </div>
+  </div>
+</nav>

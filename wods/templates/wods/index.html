@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<a type="button" class="btn btn-outline-warning m-3 shadow rounded" href="{% url 'wods:create' %}">CREATE</a>
+
+<div class="row row-cols-2 row-cols-md-4 g-1">
+    {% for wod in wods %}
+        <div class="col p-2">
+            <div class="card h-100">
+                <a href="{% url 'wods:detail' wod.pk %}">
+                <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+            <div class="card-body">
+                <h5 class="card-title">{{wod.name}}</h5>
+                <p class="card-text">{{wod.content}}</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">좋아요,, </small>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+</div>
+
+{% endblock content %}

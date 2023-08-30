@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+
+<form action="{% url 'wods:create' %}" method="post" enctype="multipart/form-data" novalidate>
+  <div class="border p-5 rounded-lg">
+    {% csrf_token %}
+    {% comment %} {{form.as_p}} {% endcomment %}
+ <div>
+      <p>{{form.name|as_crispy_field}}</p>
+      <p>{{ form.content|as_crispy_field }}</p>
+    
+    <div class="row">
+      <div class="col-3">
+        <p>{{ form.cate_score|as_crispy_field }}</p>
+      </div>
+      <div class="col-3">
+        <p>{{ form.cate_ppl|as_crispy_field }}</p>
+      </div>
+      <div class="col-3">
+        <p>{{ form.cate_special|as_crispy_field }}</p>
+      </div>
+    </div>
+
+      <div class="flex gap-10">
+        <p>{{ form.time|as_crispy_field }}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+         
+          {{ form.exercises|as_crispy_field }}          
+        </div>
+        <div class="col-6">
+          {{ form.equips|as_crispy_field }}          
+        </div>
+      </div>
+      <div class="inline-block">
+        {{ form.image|as_crispy_field }}
+      </div>  
+  <input class="mx-3 btn btn-outline-primary col-1 offset-10" type="submit">
+  <a class="btn btn-outline-info col-1" href="{% url 'wods:index' %}">돌아가기</a>
+</form>
+{% comment %} <div>
+  {{formset.management_form}}
+
+  {% for i in formset %}
+    {{i.exercise}}
+  {% endfor %}
+</div> {% endcomment %}
+{% endblock content %}
+
