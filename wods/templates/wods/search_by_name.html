@@ -12,13 +12,12 @@
           <span class="mx-2 text-gray-300">|</span>
           <button id="dropdownOffsetButton2" data-dropdown-toggle="dropdownOffset2" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</button>
           <span class="mx-2 text-gray-300">|</span>
-          {% comment %} <button id="dropdownOffsetButton3" data-dropdown-toggle="dropdownOffset3" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</button>
-          <span class="mx-2 text-gray-300">|</span> {% endcomment %}
           <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset4" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">소요시간순</button>
           <span class="mx-2 text-gray-300">|</span>
           <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset5" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조회수순</button>
         </div>
 
+      <!--생성일자순-->  
       <div id="dropdownOffset1" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
           <li>
@@ -30,7 +29,8 @@
         </ul>
       </div>
 
-      {% comment %} <div id="dropdownOffset2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+    <!--좋아요순-->
+     <div id="dropdownOffset2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
           <li>
             <button name="sort" value="liked_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
@@ -39,20 +39,20 @@
             <button name="sort" value="liked_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
           </li>
         </ul>
-      </div> {% endcomment %}
+      </div> 
 
 
-      
-        <div id="dropdownOffset4" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-            <li>
-              <button name="sort" value="time_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
-            </li>
-            <li>
-              <button name="sort" value="time_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
-            </li>
-          </ul>
-        </div>
+      <!--소요시간순-->
+      <div id="dropdownOffset4" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+          <li>
+            <button name="sort" value="time_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
+          </li>
+          <li>
+            <button name="sort" value="time_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
+          </li>
+        </ul>
+      </div>
 
         {% comment %} <div id="dropdownOffset5" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
@@ -68,75 +68,65 @@
       </div>
     </div>
   </div>
+
   <div class="flex">
     {% for wod in name_wods|slice:":8" %}
-    <div>
-        <a class="inline-block" href="{% url 'wods:detail' wod.pk %}">
-          <div class="w-36 sm:w-72 bg-white dark:bg-gray-600">
-            <div class="class">
-              <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" src="{{ wod.image.url }}"  alt="">
-            </div>
-            <div class="py-5 sm:p-5 text-center">
-              <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ wod.name }}</h5>
-              
-                  <span class="dark:text-gray-200">
-                    <i class="bi bi-eye ms-2">
-                    {% comment %} </i>{{wod.views}} {% endcomment %}
-                  </span>
-                </div>
-                <!--기타정보 -->
-                <div class="flex items-center justify-center gap-2">
-                  <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                  <span class="font-normal text-gray-700 dark:text-gray-200">
-                    {{wod.cate_score}}
-                    {{wod.time}}
-                    {{wod.cate_special}} 
-                  </span>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-        </a>
+      <div class="col p-2">
+        <div class="card h-100">
+          <a href="{% url 'wods:detail' wod.pk %}">
+          <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+          <div class="card-body">
+            <h5 class="card-title">{{wod.name}}</h5>
+            <p class="card-text">{{wod.content}}</p>
+            <p>{{wod.cate_score}}</p>
+            <p>{{wod.time}}</p>
+            <p>{{wod.cate_special}}</p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">좋아요,, </small>
+            {% comment %} <span class="dark:text-gray-200">
+              <i class="bi bi-eye ms-2">
+              </i>{{wod.views}} 
+            </span> {% endcomment %}
+        </div>
       </div>
     {% endfor %}
-</div>
 </div>
 
-<div>
-<p> '{{keyword}}' 이/가 동작에 포함된 와드 검색 결과입니다. </p>
-<div class="flex">
+
+<div class="flex bg-light">
+  <p> '{{keyword}}' 이/가 동작에 포함된 와드 검색 결과입니다. </p>
+
     {% for wod in exercise_wods|slice:":4" %}
-    <div>
-        <a class="inline-block" href="{% url 'wods:detail' wod.pk %}">
-          <div class="w-36 sm:w-72 bg-white dark:bg-gray-600">
-            <div class="class">
-              <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" src="{{ wod.image.url }}"  alt="">
-            </div>
-            <div class="py-5 sm:p-5 text-center">
-              <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ wod.name }}</h5>
-              
-                  <span class="dark:text-gray-200">
-                    <i class="bi bi-eye ms-2">
-                    {% comment %} </i>{{wod.views}} {% endcomment %}
-                  </span>
-                </div>
-                <!--기타정보 -->
-                <div class="flex items-center justify-center gap-2">
-                  <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                  <span class="font-normal text-gray-700 dark:text-gray-200">
-                    {{wod.cate_score}}
-                    {{wod.time}}
-                    {{wod.cate_special}} 
-                  </span>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-        </a>
+      <div class="col p-2">
+        <div class="card h-100">
+          <a href="{% url 'wods:detail' wod.pk %}">
+          <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+          <div class="card-body">
+            <h5 class="card-title">{{wod.name}}</h5>
+            <p class="card-text">{{wod.content}}</p>
+            <p>{{wod.cate_score}}</p>
+            <p>{{wod.time}}</p>
+            <p>{{wod.cate_special}}</p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">좋아요,, </small>
+            {% comment %} <span class="dark:text-gray-200">
+              <i class="bi bi-eye ms-2">
+              </i>{{wod.views}} 
+            </span> {% endcomment %}
+        </div>
       </div>
     {% endfor %}
+</div>
+
+<!--include, exclude 동작 기반 와드 검색 결과 -->
+<div>
+  {% for wod in q_wods %}
+    <p><strong>{{wod.name}}</strong></p>
+    <p>{{wod.content}}</p>
+    <p>---------------------</p>
+  {% endfor %}
 </div>
 
 

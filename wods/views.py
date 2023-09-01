@@ -17,13 +17,15 @@ def index(request):
     wods = Wod.objects.all()
     #    sum_amount = Wod.objects.aggregate(Sum('amount'))
 
+    exercises = Exercise.objects.all()
+
     forreps_wods = Wod.objects.filter(cate_score="For reps")
     fortime_wods = Wod.objects.filter(cate_score="For time")
     emom_wods = Wod.objects.filter(cate_score="EMOM")
     amrap_wods = Wod.objects.filter(cate_score="AMRAP")
     forload_wods = Wod.objects.filter(cate_score="For load")
     forquality_wods = Wod.objects.filter(cate_score="For quality")
-    tabata_wods = Wod.objects.filter(cate_score="tabata")
+    tabata_wods = Wod.objects.filter(cate_score="Tabata")
 
     single_wods = Wod.objects.filter(cate_ppl="1")
     to2_wods = Wod.objects.filter(cate_ppl="Team of 2")
@@ -39,7 +41,9 @@ def index(request):
 
     context = {
         "wods": wods,
+        "exercises": exercises,
         "forreps_wods": forreps_wods,
+        "fortime_wods": fortime_wods,
         "emom_wods": emom_wods,
         "amrap_wods": amrap_wods,
         "forload_wods": forload_wods,
@@ -177,37 +181,64 @@ def search_by_name(request):
     keyword = request.GET.get("keyword")
     sort_param = request.GET.get("sort")
 
-    name_queryset = Wod.objects.filter(name__icontains=keyword).order_by("-created_at")
+    if keyword:
+        name_queryset = Wod.objects.filter(name__icontains=keyword).order_by(
+            "-created_at"
+        )
 
-    if sort_param == "created_at_asc":
-        name_queryset = name_queryset.order_by("-created_at")
-    elif sort_param == "created_at_desc":
-        name_queryset = name_queryset.order_by("created_at")
-    elif sort_param == "time_asc":
-        name_queryset = name_queryset.order_by("time")
-    elif sort_param == "time_desc":
-        name_queryset = name_queryset.order_by("-time")
-    elif sort_param == "likes_asc":
-        name_queryset = name_queryset.annotate(num_likes=Count("like_wods")).order_by(
-            "num_likes"
-        )
-    elif sort_param == "likes_desc":
-        name_queryset = name_queryset.annotate(num_likes=Count("like_wods")).order_by(
-            "-num_likes"
-        )
-    elif sort_param == "views_asc":
-        name_queryset = name_queryset.annotate(num_views=Count("viewed_wods")).order_by(
-            "num_views"
-        )
-    elif sort_param == "views_desc":
-        name_queryset = name_queryset.annotate(num_views=Count("viewed_wods")).order_by(
-            "-num_views"
-        )
+        if sort_param == "created_at_asc":
+            name_queryset = name_queryset.order_by("-created_at")
+        elif sort_param == "created_at_desc":
+            name_queryset = name_queryset.order_by("created_at")
+        elif sort_param == "time_asc":
+            name_queryset = name_queryset.order_by("time")
+        elif sort_param == "time_desc":
+            name_queryset = name_queryset.order_by("-time")
+        elif sort_param == "likes_asc":
+            name_queryset = name_queryset.annotate(
+                num_likes=Count("like_wods")
+            ).order_by("num_likes")
+        elif sort_param == "likes_desc":
+            name_queryset = name_queryset.annotate(
+                num_likes=Count("like_wods")
+            ).order_by("-num_likes")
+        elif sort_param == "views_asc":
+            name_queryset = name_queryset.annotate(
+                num_views=Count("viewed_wods")
+            ).order_by("num_views")
+        elif sort_param == "views_desc":
+            name_queryset = name_queryset.annotate(
+                num_views=Count("viewed_wods")
+            ).order_by("-num_views")
+
+    else:
+        name_queryset = Wod.objects.all().order_by("-created_at")
+        sort_param = None
+
+    # 포함하는 동작, 제외하는 동작
+    include_exercise = request.GET.getlist("include_exercise")
+    exclude_exercise = request.GET.getlist("exclude_exercise")
+
+    print(include_exercise)
+    print(exclude_exercise)
+
+    wods = Wod.objects.all()
+    q = Q()
+
+    if include_exercise:
+        q &= Q(exercises__name__in=include_exercise)
+
+    if exclude_exercise:
+        q &= ~Q(exercises__name__in=exclude_exercise)
+
+    q_wods = Wod.objects.filter(q)
 
     context = {
+        "wods": wods,
         "keyword": keyword,
         "name_wods": name_queryset,
         "sort_param": sort_param,
+        "q_wods": q_wods,
     }
 
     return render(request, "wods/search_by_name.html", context)
