@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Transpose
+from ckeditor.fields import RichTextField
 
 
 # lower body, upper body, core, weightlifting, gymnastic, machine은 태그로
@@ -29,39 +30,13 @@ class Exercise(models.Model):
 class Equip(models.Model):
     name = models.CharField(max_length=100, default="도구")
 
-    # wod = models.OneToOneField(Wod, on_delete=models.CASCADE, default=None)
-    # abike = models.BooleanField(default=False)
-    # barbell = models.BooleanField(default=False)
-    # bench = models.BooleanField(default=False)
-    # bikeerg = models.BooleanField(default=False)
-    # box = models.BooleanField(default=False)
-    # d_ball = models.BooleanField(default=False)
-    # dip_bar = models.BooleanField(default=False)
-    # dumbbell = models.BooleanField(default=False)
-    # ghd_machine = models.BooleanField(default=False)
-    # gymnastic_rings = models.BooleanField(default=False)
-    # jump_rope = models.BooleanField(default=False)
-    # kettlebell = models.BooleanField(default=False)
-    # wallball = models.BooleanField(default=False)
-    # pullup_bar = models.BooleanField(default=False)
-    # rope = models.BooleanField(default=False)
-    # rower = models.BooleanField(default=False)
-    # sandbag = models.BooleanField(default=False)
-    # skierg = models.BooleanField(default=False)
-    # sled = models.BooleanField(default=False)
-    # treadmill = models.BooleanField(default=False)
-    # wall = models.BooleanField(default=False)
-    # weight_rack = models.BooleanField(default=False)
-    # weight_vest = models.BooleanField(default=False)
-    # worm = models.BooleanField(default=False)
-
     def __str__(self):
         return self.name
 
 
 class Wod(models.Model):
     name = models.CharField(max_length=100)
-    content = models.TextField(max_length=1000, blank=True, null=True)
+    content = RichTextField(max_length=1000, blank=True, null=True)
     cate_score = models.CharField(max_length=50, blank=True, null=True)
     cate_ppl = models.CharField(max_length=50, blank=True, null=True)
     cate_special = models.CharField(max_length=50, blank=True, null=True)

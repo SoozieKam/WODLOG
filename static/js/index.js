@@ -62,34 +62,67 @@
 // });
 
 
-// 카테고리별 필터링 
+// // 카테고리별 필터링 
 document.addEventListener("DOMContentLoaded", function () {
-
     const toggleButtons = document.querySelectorAll(".toggle-button");
-    let currentOpenDiv = null;
+    const wodItems = document.querySelectorAll(".wod-item");
+
+    // 페이지가 로드될 때, 모든 wod-item을 보이게 설정
+    wodItems.forEach(item => {
+        item.style.display = "block";
+    });
 
     toggleButtons.forEach(button => {
         button.addEventListener("click", function () {
-            const targetId = this.getAttribute("data-target");
-            const targetDiv = document.getElementById(targetId);
+            const targetCategory = this.getAttribute("data-category");
 
 
-            if (targetDiv !== currentOpenDiv) {
-                if (currentOpenDiv) {
-                    currentOpenDiv.style.display = "none";
+            // 모든 wod-item을 숨김
+            wodItems.forEach(item => {
+                item.style.display = "none";
+            });
+
+            // 선택한 카테고리에 해당하는 wod-item만 보이도록 설정
+            wodItems.forEach(item => {
+                const category = item.getAttribute("data-category");
+                if (category === targetCategory) {
+                    item.style.display = "block";
                 }
-                currentOpenDiv = targetDiv;
-            }
-
-
-            if (targetDiv.style.display === "none") {
-                targetDiv.style.display = "block";
-            } else {
-                targetDiv.style.display = "none";
-            }
+            });
         });
     });
 });
+
+// document.addEventListener("DOMContentLoaded", function () {
+
+//     const toggleButtons = document.querySelectorAll(".toggle-button");
+//     const wodItems = document.querySelector(".wod-item");
+
+//     let currentOpenDiv = null;
+
+
+//     toggleButtons.forEach(button => {
+//         button.addEventListener("click", function () {
+//             const targetId = this.getAttribute("data-target");
+//             const targetDiv = document.getElementById(targetId);
+
+
+//             if (targetDiv !== currentOpenDiv) {
+//                 if (currentOpenDiv) {
+//                     currentOpenDiv.style.display = "none";
+//                 }
+//                 currentOpenDiv = targetDiv;
+//             }
+
+
+//             if (targetDiv.style.display === "none") {
+//                 targetDiv.style.display = "block";
+//             } else {
+//                 targetDiv.style.display = "none";
+//             }
+//         });
+//     });
+// });
 
 
 // include, exclude datalist multiple 자동완성 (, 기준으로 구분)

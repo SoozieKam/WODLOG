@@ -1,0 +1,9 @@
+.btn-cate {
+    border-color: #6e70f9;
+
+}
+
+.btn-cate:hover {
+    background-color: #6e70f9;
+    color: white;
+}
