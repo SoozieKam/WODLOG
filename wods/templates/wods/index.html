@@ -3,41 +3,48 @@
 
 {% block content %}
 
-<a type="button" class="btn btn-outline-warning m-3 shadow rounded" href="{% url 'wods:create' %}">CREATE</a>
 
-<div class="row row-cols-2 row-cols-md-4 g-1">
-    {% for wod in wods %}
+<hr style="width:90%; border : 0px; height:1px; background:linear-gradient(to left, transparent, rgba(0,0,0,.5), transparent); ">
+
+<div class="p-4">
+  <section>
+    <h2 class="fw-bolder mb-5 g-1 text-center">Explore Wods</h2>
+    <div class="row row-cols-2 row-cols-md-4 g-1">
+      {% for wod in wods %}
         <div class="col p-2">
             <div class="card h-100">
                 <a href="{% url 'wods:detail' wod.pk %}">
                 <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
             <div class="card-body">
-                <h5 class="card-title">{{wod.name}}</h5>
-                <p class="card-text">{{wod.content}}</p>
+                <h5 class="card-title fw-bolder">{{wod.name}}</h5>
+                <p class="card-text text-truncate">{{wod.content}}</p>
             </div>
             <div class="card-footer">
                 <small class="text-muted">좋아요,, </small>
             </div>
             </div>
         </div>
-    {% endfor %}
-    
-</div>
+      {% endfor %}
+    </div>
+    <hr class="mt-5 mb-5"style="width:90%; border : 0px; height:1px; background:linear-gradient(to left, transparent, rgba(0,0,0,.5), transparent); ">
 
-<!--특정 동작 포함 or 포함하지 않는 와드 검색폼 -->
-<div class="mb-3">
+  </section>
     
-    <form method="GET" action="{% url 'wods:search_by_name' %}">
-        <label for="include_exercise" class="form-label mb-2">포함 동작:</label>
-        <input class="form-control form-select-sm" list="datalistOptions" id="include" name="include_exercise" multiple placeholder="-- 선택 --">
-        <datalist id="datalistOptions">
-            {% for exercise in exercises %}
-            <option value="{{ exercise.name }}">{{ exercise.name }}</option>
-            {% endfor %}
-        </datalist>
+
+    <!--특정 동작 포함 or 포함하지 않는 와드 검색폼 -->
+    <div class="mb-3 row">
         
+        <form method="GET" action="{% url 'wods:search_by_name' %}">
+            <label for="include_exercise" class="form-label mb-2">포함 동작:</label>
+            <input class="form-control form-select-sm" list="datalistOptions" id="include" name="include_exercise" multiple placeholder="-- 선택 --">
+            <datalist id="datalistOptions">
+                {% for exercise in exercises %}
+                <option value="{{ exercise.name }}">{{ exercise.name }}</option>
+                {% endfor %}
+            </datalist>
+            
 
-        <label for="exclude_exercise" class="form-label mb-2">제외 동작:</label>
+            <label for="exclude_exercise" class="form-label mb-2">제외 동작:</label>
             <input class="form-control form-select-sm" list="datalistOptions" id="exclude" name="exclude_exercise" multiple placeholder="-- 선택 --">
             <datalist id="datalistOptions">
                 {% for exercise in exercises %}
@@ -45,379 +52,385 @@
                 {% endfor %}
             </datalist>
             
-            {% comment %} <option selected>-- 선택 --</option>
-            {% for exercise in exercises %}
-                <option value="{{ exercise.name }}">{{ exercise.name }}</option>
-            {% endfor %} {% endcomment %}
-    
-        <button type="submit">검색</button>
-    </form>
-    
+                {% comment %} <option selected>-- 선택 --</option>
+                {% for exercise in exercises %}
+                    <option value="{{ exercise.name }}">{{ exercise.name }}</option>
+                {% endfor %} {% endcomment %}
+        
+            <button class="btn btn-sm" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
+        </form>
+        
+    </div>
+
+
+    <!--카테고리별 와드 필터링-->
+    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv1">For reps</button>
+        <div id="infoDiv1" class="info-div" style="display: none;">
+
+            {% for wod in forreps_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv17">For time</button>
+        <div id="infoDiv17" class="info-div" style="display: none;">
+
+            {% for wod in fortime_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+
+    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv2">EMOM</button>
+        <div id="infoDiv2" class="info-div" style="display: none;">
+
+            {% for wod in emom_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv3">AMRAP</button>
+        <div id="infoDiv3" class="info-div" style="display: none;">
+
+            {% for wod in amrap_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv4">For load</button>
+        <div id="infoDiv4" class="info-div" style="display: none;">
+
+            {% for wod in forload_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <script src="{% static 'js/index.js' %}"></script>
+
+    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv5">For quality</button>
+        <div id="infoDiv5" class="info-div" style="display: none;">
+
+            {% for wod in forquality_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv6">Tabata</button>
+        <div id="infoDiv6" class="info-div" style="display: none;">
+
+            {% for wod in tabata_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+
+    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv7">Single</button>
+        <div id="infoDiv7" class="info-div" style="display: none;">
+
+            {% for wod in single_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv8">Team of 2</button>
+        <div id="infoDiv8" class="info-div" style="display: none;">
+
+            {% for wod in to2_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv9">Team of 3</button>
+        <div id="infoDiv9" class="info-div" style="display: none;">
+
+            {% for wod in to3_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv10">Team of 4</button>
+        <div id="infoDiv10" class="info-div" style="display: none;">
+
+            {% for wod in to4_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv11">Team of 5</button>
+        <div id="infoDiv11" class="info-div" style="display: none;">
+
+            {% for wod in to5_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv12">Team of 6</button>
+        <div id="infoDiv12" class="info-div" style="display: none;">
+
+            {% for wod in to6_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv13">Classic Benchmarks</button>
+        <div id="infoDiv13" class="info-div" style="display: none;">
+
+            {% for wod in classic_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv14">Memorials, Tributes and Holidays</button>
+        <div id="infoDiv14" class="info-div" style="display: none;">
+
+            {% for wod in mth_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv15">The heroes</button>
+        <div id="infoDiv15" class="info-div" style="display: none;">
+
+            {% for wod in heroes_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv16">Coach creations</button>
+        <div id="infoDiv16" class="info-div" style="display: none;">
+
+            {% for wod in coach_wods %}
+                <div class="col p-2">
+                    <div class="card h-100">
+                        <a href="{% url 'wods:detail' wod.pk %}">
+                        <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{wod.name}}</h5>
+                        <p class="card-text">{{wod.content}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">좋아요,, </small>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+
 </div>
-
-
-<!--카테고리별 와드 필터링-->
-<button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv1">For reps</button>
-    <div id="infoDiv1" class="info-div" style="display: none;">
-
-        {% for wod in forreps_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv17">For time</button>
-    <div id="infoDiv17" class="info-div" style="display: none;">
-
-        {% for wod in fortime_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-
-<button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv2">EMOM</button>
-    <div id="infoDiv2" class="info-div" style="display: none;">
-
-        {% for wod in emom_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-<button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv3">AMRAP</button>
-    <div id="infoDiv3" class="info-div" style="display: none;">
-
-        {% for wod in amrap_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv4">For load</button>
-    <div id="infoDiv4" class="info-div" style="display: none;">
-
-        {% for wod in forload_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <script src="{% static 'js/index.js' %}"></script>
-
-<button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv5">For quality</button>
-    <div id="infoDiv5" class="info-div" style="display: none;">
-
-        {% for wod in forquality_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-<button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv6">Tabata</button>
-    <div id="infoDiv6" class="info-div" style="display: none;">
-
-        {% for wod in tabata_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-
-<button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv7">Single</button>
-    <div id="infoDiv7" class="info-div" style="display: none;">
-
-        {% for wod in single_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv8">Team of 2</button>
-    <div id="infoDiv8" class="info-div" style="display: none;">
-
-        {% for wod in to2_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv9">Team of 3</button>
-    <div id="infoDiv9" class="info-div" style="display: none;">
-
-        {% for wod in to3_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv10">Team of 4</button>
-    <div id="infoDiv10" class="info-div" style="display: none;">
-
-        {% for wod in to4_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv11">Team of 5</button>
-    <div id="infoDiv11" class="info-div" style="display: none;">
-
-        {% for wod in to5_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv12">Team of 6</button>
-    <div id="infoDiv12" class="info-div" style="display: none;">
-
-        {% for wod in to6_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv13">Classic Benchmarks</button>
-    <div id="infoDiv13" class="info-div" style="display: none;">
-
-        {% for wod in classic_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv14">Memorials, Tributes and Holidays</button>
-    <div id="infoDiv14" class="info-div" style="display: none;">
-
-        {% for wod in mth_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv15">The heroes</button>
-    <div id="infoDiv15" class="info-div" style="display: none;">
-
-        {% for wod in heroes_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button type="button" class="toggle-button btn btn-outline-primary" data-target="infoDiv16">Coach creations</button>
-    <div id="infoDiv16" class="info-div" style="display: none;">
-
-        {% for wod in coach_wods %}
-            <div class="col p-2">
-                <div class="card h-100">
-                    <a href="{% url 'wods:detail' wod.pk %}">
-                    <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title">{{wod.name}}</h5>
-                    <p class="card-text">{{wod.content}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">좋아요,, </small>
-                </div>
-                </div>
-            </div>
-        {% endfor %}
-
-    </div>
-
     <script src="{% static 'js/index.js' %}"></script>
 
 {% endblock content %}

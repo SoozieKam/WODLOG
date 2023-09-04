@@ -120,33 +120,33 @@
 </nav> {% endcomment %}
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #FFFFFF;">
   <div class="container-fluid">
        
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+    <div class="flex collapse navbar-collapse" id="navbarScroll">
+      <ul class="align-items-center navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
         <li class="nav-item">
           <a href="{% url 'wods:index' %}">
             <img class="d-inline-block align-text-top" style="  width: 150px;
             " src="{% static 'image/WODLOG_logo.png' %}" alt="wodlog_logo">
           </a>         
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">와드 추천</a>
+        <li class="nav-item ">
+          <a class="nav-link " href="#">WODS</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">운동 일지</a>
+          <a class="nav-link" href="#">LOGS</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">[LIVE] 운동 피드백</a>
+          <a class="nav-link" href="#">FEEDBACK</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">커뮤니티</a>
+          <a class="nav-link" href="#">COMMUNITY</a>
         </li> 
-
+      </ul>
 
         {% comment %} <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -168,9 +168,13 @@
         </li> {% endcomment %}
        
       
-      <form class="d-flex" action="{% url 'wods:search'  %}" method="get">
-        <input name="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">검색</button>
+      <form class="d-flex justify-content-end " action="{% url 'wods:search'  %}" method="get">
+        <input name="keyword" class="form-control form-control-sm me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-sm" type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </button>
       </form>
     </div>
 
@@ -197,28 +201,44 @@
       {% else %}
         <!-- 로그인 했을때 -->
 
-        <div class="btn-group">
-          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="flex items-center content-center gap-1">
-              <img class="object-cover rounded-full mt-1" style="width:40px; height:40px" src="{{ request.user.profile_image.url }}" alt="profile">
-            <p class="hidden sm:block text-[#2f4f4f] font-bold dark:text-gray-400">{{request.user.nickname}}</p>
-            </div>          
+        <div class="dropdown flex">
+          
+          <button class="dropdown-toggle" type="button" id="dropdownMenuButton2"  data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="object-cover mt-1" style="width:40px; height:40px; border-radius: 50%" src="{{ request.user.profile_image.url }}" alt="profile">
+            <span class="fw-bold">{{request.user.nickname}}</span>
           </button>
-
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li>
-                <a href="{% url 'accounts:profile' request.user %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold ">My Profile</a>
-              </li>
-              <li>
-                <a href="{% url 'accounts:update' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold">Settings</a>
-              </li>
-              <li>
-                <a href="{% url 'accounts:logout' %}">Log out</a>
-              </li>
-             
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+            <li><a href="{% url 'accounts:profile' request.user %}" class="dropdown-item" >My Profile</a></li>
+            <li><a href="{% url 'accounts:update' %}" class="dropdown-item" >Settings</a></li>
+            <li><a href="{% url 'accounts:logout' %}" class="dropdown-item" >Log out</a></li>
           </ul>
-        </div> 
-        {% endif %}
+             
+        </div>
+      {% endif %}
+
+
+          {% comment %}
+          <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img class="object-cover mt-1" style="width:40px; height:40px; border-radius: 50%" src="{{ request.user.profile_image.url }}" alt="profile">
+                  <span class="font-bold">{{request.user.nickname}}</span>
+                </a>
+                
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a href="{% url 'accounts:profile' request.user %}" class="dropdown-item" >My Profile</a></li>
+                  <li><a href="{% url 'accounts:update' %}" class="dropdown-item" >Settings</a></li>
+                  <li><a href="{% url 'accounts:logout' %}" class="dropdown-item" >Log out</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+      {% endcomment %}
     </div>
+
   </div>
+
 </nav>
