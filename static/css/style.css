@@ -1,5 +1,18 @@
 .btn-cate {
-    border-color: #6e70f9;
+    background-color: #e8e8e9;
+    color: #6656f6a7;
+    border: 1px solid transparent;
+    display: inline-block;
+    margin-right: 0.3rem;
+    margin-top: 0.3rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 50px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+
 
 }
 

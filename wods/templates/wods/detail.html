@@ -31,11 +31,11 @@
 <form id="likes_form" class="" data-wod-id="{{ wod.pk }}">
   {% csrf_token %}
   {% if request.user.is_authenticated %}
-    <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded">
+    <button id="likes_btn" class="border border-danger text-danger bg-danger py-1 px-2 py-sm-2 px-sm-4 rounded">
       <i class="bi bi-heart{% if request.user in wod.like_users.all %}-fill{% endif %} text-danger"></i>
     </button>
   {% else %}
-    <button class="border border-red-500 text-red-500 py-1 px-2 sm:py-2 sm:px-4 rounded cursor-not-allowed opacity-50" disabled>
+    <button class="border border-danger text-danger py-1 px-2 py-sm-2 px-sm-4 rounded cursor-not-allowed opacity-50" disabled>
       <i class="bi bi-heart"></i>
     </button>
   {% endif %}
@@ -58,5 +58,59 @@
 {% if request.user == wod.user or request.user.is_superuser %}
 <a href="{% url 'wods:delete' wod.pk %}">삭제</a>
 {% endif %}
+
+<script>
+
+  const likesForm = document.querySelector('#likes_form')
+  const likeFormCsrfToken = likesForm.querySelector('[name=csrfmiddlewaretoken]').value;
+  let wodLikeCount = document.querySelector('#wod-like-count')
+  likesForm.addEventListener('submit', function (event) {
+    event.preventDefault()
+    const wodId = event.target.dataset.wodId
+
+    axios({
+      method : 'post',
+      url: `/wods/${wodId}/like/`,
+      headers: {'X-CSRFToken': likeFormCsrfToken},
+    })
+    .then((response) => {
+      const isLiked = response.data.is_liked
+      const likeIcon = document.querySelector('#likes_btn > i')
+      if (isLiked === true) {
+        likeIcon.classList.remove('bi-heart')
+        likeIcon.classList.add('bi-heart-fill')
+        wodLikeCount.textContent = parseInt(wodLikeCount.textContent) + 1
+      } else {
+        likeIcon.classList.add('bi-heart')
+        likeIcon.classList.remove('bi-heart-fill')
+        wodLikeCount.textContent = parseInt(wodLikeCount.textContent) - 1
+      }
+    })
+  })
+
+  const bookmarkForm = document.querySelector('#bookmark_form')
+  const bookmarkFormCsrfToken = bookmarkForm.querySelector('[name=csrfmiddlewaretoken]').value;
+  bookmarkForm.addEventListener('submit', function (event) {
+    event.preventDefault()
+    const wodId = event.target.dataset.wodId
+
+    axios({
+      method : 'post',
+      url: `/recipes/${wodId}/bookmark/`,
+      headers: {'X-CSRFToken': bookmarkFormCsrfToken},
+    })
+    .then((response) => {
+      const isbookmark = response.data.is_bookmark
+      const bookmarkIcon = document.querySelector('#bookmark_btn > i')
+      if (isbookmark === true) {
+        bookmarkIcon.classList.remove('bi-bookmark')
+        bookmarkIcon.classList.add('bi-bookmark-fill')
+      } else {
+        bookmarkIcon.classList.add('bi-bookmark')
+        bookmarkIcon.classList.remove('bi-bookmark-fill')
+      }
+    })
+  })
+</script>
 {% endblock content %}
 

@@ -203,9 +203,9 @@
 
         <div class="dropdown flex">
           
-          <button class="dropdown-toggle" type="button" id="dropdownMenuButton2"  data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="object-cover mt-1" style="width:40px; height:40px; border-radius: 50%" src="{{ request.user.profile_image.url }}" alt="profile">
-            <span class="fw-bold">{{request.user.nickname}}</span>
+          <button class="dropdown-toggle" style="border: transparent; background-color:white;" type="button" id="dropdownMenuButton2"  data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="object-cover mt-1 me-1" style="width:40px; height:40px; border-radius: 50%" src="{{ request.user.profile_image.url }}" alt="profile">
+            <span style="color: #585858">{{request.user.nickname}}</span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
             <li><a href="{% url 'accounts:profile' request.user %}" class="dropdown-item" >My Profile</a></li>

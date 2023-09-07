@@ -10,23 +10,32 @@
   <section class="flex">
     <h2 class="fw-bolder mb-5 g-1 text-center">Explore Wods</h2>
 
-    <!--카테고리별 와드 필터링-->
+    <!--와드 필터링-->
+    <div class="text-align-center mb-2">
 
-  
+      <button type="button" class="toggle-button btn-cate" data-category="For reps">For reps</button>
+      <button type="button" class="toggle-button btn-cate" data-category="For time">For time</button>
+      <button type="button" class="toggle-button btn-cate" data-category="EMOM">EMOM</button>
+      <button type="button" class="toggle-button btn-cate" data-category="AMRAP">AMRAP</button>
+      <button type="button" class="toggle-button btn-cate" data-category-special="Classic Benchmarks">Classic Benchmarks</button>
+      <button type="button" class="toggle-button btn-cate" data-category-special="Coach Creations">Coach Creations</button>
+      <button type="button" class="toggle-button btn-cate" data-category-special="The Heroes">The Heroes</button>
+      <button type="button" class="toggle-button btn-cate" data-category-ppl="1">Single</button>
+      <button type="button" class="toggle-button btn-cate" data-category-ppl="Team of 2">Team of 2</button>
+      <button type="button" class="toggle-button btn-cate" data-category-ppl="Team of 3">Team of 3</button>
+      <button type="button" class="toggle-button btn-cate" data-category-ppl="Team of 4">Team of 4</button>
+      <button type="button" class="toggle-button btn-cate" data-exercise="Pull up">Pull up</button>
+      <button type="button" class="toggle-button btn-cate" data-exercise="Thruster">THruster</button>
+      <button type="button" class="toggle-button btn-cate" data-exercise="Muscle up">Muscle up</button>
+      <button type="button" class="toggle-button btn-cate" data-exercise="Snatch">Snatch</button>
+      <button type="button" class="toggle-button btn-cate" data-exercise="Clean">Clean</button>
+      <button type="button" class="toggle-button btn-cate" data-exercise="Run">Run</button>
 
-    <div class="justify-content-center">
-
-      <button type="button" class="toggle-button btn btn-round btn-cate" data-category="For reps">For reps</button>
-      <button type="button" class="toggle-button btn btn-round btn-cate" data-category="For time">For time</button>
-      <button type="button" class="toggle-button btn btn-round btn-cate" data-category="EMOM">EMOM</button>
-      <button type="button" class="toggle-button btn btn-round btn-cate" data-category="AMRAP">AMRAP</button>
-        
     </div>
-        
-    
+
     <div class="row row-cols-2 row-cols-md-4 g-1">
       {% for wod in wods %}
-        <div class="col p-2 wod-item" data-category="{{ wod.cate_score }}">
+        <div class="col p-2 wod-item" data-name="{{ wod.name }}"data-category="{{ wod.cate_score }}" data-category-ppl="{{wod.cate_ppl}}" data-category-special="{{ wod.cate_special}}" data-exercises="{{wods_js}}">
             <div class="card h-100">
                 <a href="{% url 'wods:detail' wod.pk %}">
                 <img  src="{{wod.image.url}}"  class="card-img-top" alt="..."></a>

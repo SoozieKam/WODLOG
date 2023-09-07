@@ -19,46 +19,15 @@ def index(request):
 
     exercises = Exercise.objects.all()
 
-    forreps_wods = Wod.objects.filter(cate_score="For reps")
-    fortime_wods = Wod.objects.filter(cate_score="For time")
-    emom_wods = Wod.objects.filter(cate_score="EMOM")
-    amrap_wods = Wod.objects.filter(cate_score="AMRAP")
-    forload_wods = Wod.objects.filter(cate_score="For load")
-    forquality_wods = Wod.objects.filter(cate_score="For quality")
-    tabata_wods = Wod.objects.filter(cate_score="Tabata")
+    # exercises_json = json.dumps(Wod.exercises)
 
-    single_wods = Wod.objects.filter(cate_ppl="1")
-    to2_wods = Wod.objects.filter(cate_ppl="Team of 2")
-    to3_wods = Wod.objects.filter(cate_ppl="Team of 3")
-    to4_wods = Wod.objects.filter(cate_ppl="Team of 4")
-    to5_wods = Wod.objects.filter(cate_ppl="Team of 5")
-    to6_wods = Wod.objects.filter(cate_ppl="Team of 6")
-
-    classic_wods = Wod.objects.filter(cate_special="Classic Benchmarks")
-    mth_wods = Wod.objects.filter(cate_special="Memorials, Tributes, & Holidays")
-    heroes_wods = Wod.objects.filter(cate_special="The heroes")
-    coach_wods = Wod.objects.filter(cate_special="Coach Creations")
+    # forreps_wods = Wod.objects.filter(cate_score="For reps")
 
     context = {
         "wods": wods,
         "exercises": exercises,
-        "forreps_wods": forreps_wods,
-        "fortime_wods": fortime_wods,
-        "emom_wods": emom_wods,
-        "amrap_wods": amrap_wods,
-        "forload_wods": forload_wods,
-        "forquality_wods": forquality_wods,
-        "tabata_wods": tabata_wods,
-        "single_wods": single_wods,
-        "to2_wods": to2_wods,
-        "to3_wods": to3_wods,
-        "to4_wods": to4_wods,
-        "to5_wods": to5_wods,
-        "to6_wods": to6_wods,
-        "classic_wods": classic_wods,
-        "mth_wods": mth_wods,
-        "heroes_wods": heroes_wods,
-        "coach_wods": coach_wods,
+        "wods_js": json.dumps([wod.to_json() for wod in wods])
+        # "exercises_json": exercises_json,
     }
     return render(request, "wods/index.html", context)
 

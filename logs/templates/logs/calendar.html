@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+{% endblock style%}
+
+{% block content %}
+<div class="calendar-body">
+  <div class="calendar">
+    <div class="calendar_header">
+        <div class="calendar_nav">
+            <button class="nav-btn go-prev">&lt;</button>
+            <span class="year"></span>년
+            <span class="month"></span>월
+            <!-- <button class="nav-btn go-today">오늘로 가기</button> -->
+            <button class="nav-btn go-next">&gt;</button>
+        </div>
+    </div>
+    <div class="calendar_main">
+        <div class="days">
+            <div class="day">일</div>
+            <div class="day">월</div>
+            <div class="day">화</div>
+            <div class="day">수</div>
+            <div class="day">목</div>
+            <div class="day">금</div>
+            <div class="day">토</div>
+        </div>
+        <div class="dates"></div>
+    </div>
+  
+    <!-- 예약 창 -->
+    <div class="resv-wrapper">
+        <div class="resv-bg">
+            <button class="resv-close">X</button>
+            <div class="resv_info">
+                <div class="resv_ym">
+                    <span class="year"></span>년
+                    <span class="month"></span>월
+                    <span class="date"></span>일
+
+                </div>
+                {% comment %} <button> 
+                  <a href="{% url 'logs:write' selected_date %}">일지 쓰기</a>
+                </button> {% endcomment %}
+                <h3>
+                    운동 목록
+                </h3>
+                <table class="table table-borderless resv-list row">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td colspan="2">Larry the Bird</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>               
+                </table>                    
+                <h3>
+                    프로그램 목록
+                </h3>
+                <div class="resv-event">
+                    <p>EVNET 1 <span>12:30</span></p>
+                    <p>EVNET 2 <span>14:30</span></p>
+                    <p>EVNET 3 <span>17:30</span></p>
+                </div>
+            </div>
+            <div class="resv_set">
+                <input class="resv_set time" type="time" name="" id="">
+                <button class="resv_btn purchase">예약</button>
+                <button class="resv_btn cancel">예약취소</button>
+            </div>
+        </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+<script src="{% static 'js/calendar.js' %}"></script>
+<script src="{% static 'js/writing.js' %}"></script>
+{% endblock content %}
+

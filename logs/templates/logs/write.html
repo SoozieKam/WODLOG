@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+
+<form action="{% url 'logs:write' %}" method="post" enctype="multipart/form-data" novalidate>
+  <div class="border p-5 rounded-lg">
+    {% csrf_token %}
+    {% comment %} {{form.as_p}} {% endcomment %}
+    <p>{{form.title|as_crispy_field}}</p>
+
+ <div class="row">
+    <div class="col">
+      {{ form.today_condition|as_crispy_field }}
+    </div>
+    <div class="col">
+      {{ form.illness|as_crispy_field }}
+    </div>
+    <div class="col">
+      {{ form.illness_range|as_crispy_field }}
+    </div>
+  </div>
+
+    {{form.warmup|as_crispy_field}}
+    {{form.conditioning|as_crispy_field}}
+    {{form.strength|as_crispy_field}}
+    {{form.weightlifting|as_crispy_field}}
+    {{form.accessories|as_crispy_field}}
+
+  <div class="inline-block">
+    {{ form.image|as_crispy_field }}
+  </div> 
+  
+  <div class="inline-block">
+    {{ form.video|as_crispy_field }}
+  </div>  
+
+  {{forms.visibility}}
+  <input class="mx-3 btn btn-outline-primary col-1 offset-10" type="submit">
+  <a class="btn btn-outline-info col-1" href="{% url 'logs:calendar' %}">돌아가기</a>
+</form>
+{% comment %} <div>
+  {{formset.management_form}}
+
+  {% for i in formset %}
+    {{i.exercise}}
+  {% endfor %}
+</div> {% endcomment %}
+{% endblock content %}
+

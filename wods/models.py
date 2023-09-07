@@ -22,6 +22,7 @@ from ckeditor.fields import RichTextField
 
 class Exercise(models.Model):
     name = models.CharField(max_length=100)
+    target = models.CharField(max_length=100, default="target")
 
     def __str__(self):
         return self.name
@@ -63,8 +64,13 @@ class Wod(models.Model):
     views = models.IntegerField(default=0)
     time = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
+
+    def to_json(self):
+        exercises_list = [exercise.name for exercise in self.exercises.all()]
+
+        return {"name": self.name, "exercises": exercises_list}
 
 
 class LikeWod(models.Model):

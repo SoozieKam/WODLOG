@@ -62,7 +62,7 @@
 // });
 
 
-// // 카테고리별 필터링 
+// 카테고리별 필터링 
 document.addEventListener("DOMContentLoaded", function () {
     const toggleButtons = document.querySelectorAll(".toggle-button");
     const wodItems = document.querySelectorAll(".wod-item");
@@ -75,7 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleButtons.forEach(button => {
         button.addEventListener("click", function () {
             const targetCategory = this.getAttribute("data-category");
-
+            const targetCategorySpecial = this.getAttribute("data-category-special");
+            const targetCategoryPpl = this.getAttribute("data-category-ppl")
+            const targetExercise = this.getAttribute("data-exercise")
+            console.log(targetExercise)
 
             // 모든 wod-item을 숨김
             wodItems.forEach(item => {
@@ -84,8 +87,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 선택한 카테고리에 해당하는 wod-item만 보이도록 설정
             wodItems.forEach(item => {
+                const name = item.getAttribute("data-name");
                 const category = item.getAttribute("data-category");
+                const special = item.getAttribute("data-category-special");
+                const ppl = item.getAttribute("data-category-ppl")
+                const exercisesStr = item.getAttribute("data-exercises");
+                const exercises = JSON.parse(exercisesStr);
+                const matchingWods = exercises.filter(wod => wod.exercises.includes(targetExercise));
+                const matchingWodNames = matchingWods.map(wod => wod.name);
+
+                // const exercises = JSON.parse("{{ wods_js | escapejs }}")
+                console.log(exercisesStr)
+                console.log(exercises)
+                console.log(matchingWods)
+
+                // if (category === targetCategory && special === targetCategorySpecial) {
+                //     item.style.display = "block";
+                // }
                 if (category === targetCategory) {
+                    item.style.display = "block";
+                }
+
+                if (special === targetCategorySpecial) {
+                    item.style.display = "block";
+                }
+
+                if (ppl === targetCategoryPpl) {
+                    item.style.display = "block";
+                }
+
+                if (matchingWodNames.includes(name)) {
                     item.style.display = "block";
                 }
             });
