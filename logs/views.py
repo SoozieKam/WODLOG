@@ -10,28 +10,34 @@ from datetime import date
 
 def calendar(request):
     today = date.today()
-    selected_date = request.POST.get("selected_date")
+    # selected_date = request.POST.get("selected_date")
+    # print(selected_date)
 
     context = {
         "today": today,
-        "selected_date": selected_date,
+        #    "selected_date": selected_date,
     }
     return render(request, "logs/calendar.html", context)
 
 
-def write(request, selected_date):
+def write(request):
     wods = Wod.objects.all()
     exercises = Exercise.objects.all()
+    selected_date = request.GET.get("selected_date", None)
+    print(selected_date)
 
     if request.method == "POST":
         form = LogForm(request.POST, request.FILES)
-
+        # selected_date_2 = request.POST.get("selected_date", None)
         if form.is_valid():
-            log = form.save(commit=False)
-            log.owner = request.user
-            log.save()
+            if selected_date:
+                print("date 있따")
+                log = form.save(commit=False)
+                log.owner = request.user
+                log.new_date = selected_date  # Log 모델의 date 필드에 선택한 날짜를 저장
+                log.save()
 
-            return redirect("logs:calendar")
+                return redirect("logs:calendar")
     else:
         form = LogForm()
 
@@ -42,3 +48,35 @@ def write(request, selected_date):
     }
 
     return render(request, "logs/write.html", context)
+
+
+# def write(request):
+#    wods = Wod.objects.all()
+#    exercises = Exercise.objects.all()
+#
+#    if request.method == "POST":
+#        form = LogForm(request.POST, request.FILES)
+#
+#        if form.is_valid():
+#            if selected_date:
+#                log = form.save(commit=False)
+#                log.owner = request.user
+#                log.new_date = selected_date
+#                log.save()
+#
+#                return redirect("logs:calendar")
+#    else:
+#        form = LogForm()
+#        selected_date = request.GET.get("selected_date", None)
+#        selected_year = request.GET.get("year", None)
+#        print(selected_year)
+#        print(selected_date)
+#
+#    context = {
+#
+#        "form": form,
+#        "exercises": exercises,
+#        "wods": wods,
+#    }
+#
+#    return render(request, "logs/write.html", context)

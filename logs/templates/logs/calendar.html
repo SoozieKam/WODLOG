@@ -41,9 +41,9 @@
                     <span class="date"></span>일
 
                 </div>
-                {% comment %} <button> 
-                  <a href="{% url 'logs:write' selected_date %}">일지 쓰기</a>
-                </button> {% endcomment %}
+                 <button> 
+                  <a href="{% url 'logs:write' %}">일지 쓰기</a>
+                </button> 
                 <h3>
                     운동 목록
                 </h3>
@@ -97,6 +97,7 @@
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="{% static 'js/calendar.js' %}"></script>
 <script src="{% static 'js/writing.js' %}"></script>

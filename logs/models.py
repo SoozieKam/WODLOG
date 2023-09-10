@@ -9,10 +9,6 @@ from ckeditor.fields import RichTextField
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class date(models.Model):
-    date = models.DateField()
-
-
 class Log(models.Model):
     title = models.CharField(max_length=100)
     today_condition = models.CharField(max_length=50, default="좋음")
@@ -25,14 +21,17 @@ class Log(models.Model):
             MaxValueValidator(limit_value=10),
         ],
     )
-
+    new_date = models.CharField(max_length=8, default="20230910")
     wod = models.ForeignKey(Wod, on_delete=models.SET_NULL, blank=True, null=True)
-
-    warmup = RichTextField(max_length=2000, blank=True, null=True)
-    conditioning = RichTextField(max_length=2000, blank=True, null=True)
-    strength = RichTextField(max_length=2000, blank=True, null=True)
-    weightlifting = RichTextField(max_length=2000, blank=True, null=True)
-    accessories = RichTextField(max_length=2000, blank=True, null=True)
+    exercise = models.ForeignKey(
+        Exercise, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    # pr =
+    warmup = models.CharField(max_length=2000, blank=True, null=True)
+    conditioning = models.CharField(max_length=2000, blank=True, null=True)
+    strength = models.CharField(max_length=2000, blank=True, null=True)
+    weightlifting = models.CharField(max_length=2000, blank=True, null=True)
+    accessories = models.CharField(max_length=2000, blank=True, null=True)
     image = ProcessedImageField(
         upload_to="wods/", processors=[Transpose()], null=True, blank=True
     )
@@ -54,26 +53,24 @@ class Log(models.Model):
     )
     views = models.IntegerField(default=0)
 
-    PUBLIC = "public"
-    FRIENDS_ONLY = "friends_only"
-    PRIVATE = "private"
-
-    VISIBILITY_CHOICES = (
-        (PUBLIC, "Public"),
-        (FRIENDS_ONLY, "Friends Only"),
-        (PRIVATE, "Private"),
-    )
-
     visibility = models.CharField(
         max_length=20,
-        choices=VISIBILITY_CHOICES,
-        default=PUBLIC,
+        default="비공개",
     )
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.date
+    weight = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    weight_unit = models.CharField(max_length=10, blank=True, null=True)
+
+    time = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    time_unit = models.CharField(max_length=10, blank=True, null=True)
+
+    def display_weight(self):
+        return f"{self.weight} {self.weight_unit}"
+
+    def display_time(self):
+        return f"{self.time} {self.time_unit}"
 
 
 class LikeLog(models.Model):

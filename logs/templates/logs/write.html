@@ -28,6 +28,30 @@
     {{form.weightlifting|as_crispy_field}}
     {{form.accessories|as_crispy_field}}
 
+  <div class="row">
+    <div class="col">
+      {{form.exercise|as_crispy_field}}
+    </div>
+    <div class="col">
+      {{form.weight|as_crispy_field}}
+    </div>
+    <div class="col">
+      {{form.weight_unit|as_crispy_field}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      {{form.wod|as_crispy_field}}
+    </div>
+    <div class="col">
+      {{form.time|as_crispy_field}}
+    </div>
+    <div class="col">
+      {{form.time_unit|as_crispy_field}}
+    </div>
+  </div>
+  
   <div class="inline-block">
     {{ form.image|as_crispy_field }}
   </div> 
@@ -36,16 +60,30 @@
     {{ form.video|as_crispy_field }}
   </div>  
 
-  {{forms.visibility}}
-  <input class="mx-3 btn btn-outline-primary col-1 offset-10" type="submit">
-  <a class="btn btn-outline-info col-1" href="{% url 'logs:calendar' %}">돌아가기</a>
+  {{form.visibility|as_crispy_field }}
+  <input class="mx-3 btn btn-outline-primary col-1" type="submit">
+  <a class="btn btn-outline-info" href="{% url 'logs:calendar' %}">돌아가기</a>
 </form>
-{% comment %} <div>
-  {{formset.management_form}}
 
-  {% for i in formset %}
-    {{i.exercise}}
-  {% endfor %}
-</div> {% endcomment %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $.ajax({
+    url: '/logs/write/',
+    method: 'POST',
+    data: {
+        year: selectedDate.year,
+        month: selectedDate.month,
+        day: selectedDate.day,
+        selected_date: `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
+    },
+    success: function (data) {
+    },
+    error: function (error) {
+        alert('서버와의 통신 중 문제가 발생했습니다. 나중에 다시 시도해주세요.');
+    }
+  });
+</script>
+
 {% endblock content %}
 
