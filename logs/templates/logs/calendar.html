@@ -42,38 +42,26 @@
 
                 </div>
                  <button> 
-                  <a href="{% url 'logs:write' %}">일지 쓰기</a>
+                  <a href="{% url 'logs:write'%} ">일지 쓰기</a>
                 </button> 
                 <h3>
                     운동 목록
                 </h3>
                 <table class="table table-borderless resv-list row">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
-                    </tr>
-                  </thead>
+                  
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td colspan="2">Larry the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
+                    {% for log in logs %}
+                      {% if log.new_date == selected_date %}
+
+                        <tr>
+                          <th scope="row">1</th>
+                            <td>{{log.title}}</td>
+                            <td>{{log.today_condition}}</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+                    
+                   
                   </tbody>               
                 </table>                    
                 <h3>
@@ -98,6 +86,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script src="{% static 'js/calendar.js' %}"></script>
 <script src="{% static 'js/writing.js' %}"></script>

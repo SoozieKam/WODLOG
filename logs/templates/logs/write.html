@@ -61,28 +61,47 @@
   </div>  
 
   {{form.visibility|as_crispy_field }}
+  <input type="hidden" name="new_date" value="{{ selected_date }}">
+
   <input class="mx-3 btn btn-outline-primary col-1" type="submit">
   <a class="btn btn-outline-info" href="{% url 'logs:calendar' %}">돌아가기</a>
 </form>
 
+{{selected_date}}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  $.ajax({
-    url: '/logs/write/',
-    method: 'POST',
-    data: {
-        year: selectedDate.year,
-        month: selectedDate.month,
-        day: selectedDate.day,
-        selected_date: `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
-    },
-    success: function (data) {
+  const selected_date = JSON.parse(localStorage.getItem("selected_date"));
+
+  document.querySelector('input[name="new_date"]').value = selected_date;
+  const my = document.querySelector('input[name="new_date"]');
+  console.log(my)
+  // 이전 URL에서 받은 selected_date 값을 변수에 저장
+  console.log(selected_date)
+var selectedDate = selected_date; // 예시로 선택한 날짜
+
+// 보낼 데이터
+var postData = {
+    selected_date: selectedDate
+};
+console.log(postData)
+// Ajax POST 요청 보내기
+{% comment %} $.ajax({
+    url: "/logs/write/", // 요청을 보낼 URL
+    method: "POST", // POST 메서드 사용
+    data: postData, // 보낼 데이터
+    success: function (response) {
+        // 성공 시 처리
+        console.log("요청이 성공했습니다.");
+        console.log(response);
     },
     error: function (error) {
-        alert('서버와의 통신 중 문제가 발생했습니다. 나중에 다시 시도해주세요.');
+        // 오류 시 처리
+        console.log("오류가 발생했습니다.");
+        console.log(error);
     }
-  });
+});  {% endcomment %}
 </script>
 
 {% endblock content %}

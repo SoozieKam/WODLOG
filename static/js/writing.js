@@ -1,3 +1,4 @@
+
 const resvTab = document.querySelector('.resv-wrapper');
 const exitBtn = document.querySelector('.resv-close');
 exitBtn.addEventListener('click', () => { resvTab.classList.remove('open'); });
@@ -37,12 +38,20 @@ const dateFunc = () => {
                 selectedDate.year = year.innerHTML;
                 selectedDate.month = month.innerHTML;
                 selectedDate.day = i.querySelector('.date-itm').innerText.trim();
+                if (selectedDate.day.length === 1) {
+                    selectedDate.day = '0' + selectedDate.day
+                }
+                if (selectedDate.month.length === 1) {
+                    selectedDate.month = '0' + selectedDate.month
+                }
                 resvTab.classList.add('open');
                 console.log(selDate)
+                const selected_date = `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
 
-                // JavaScript에서 Ajax 요청 보내기
+
+                // // JavaScript에서 Ajax 요청 보내기
                 $.ajax({
-                    url: '/logs/write/',
+                    url: 'write/',
                     method: 'GET',
                     data: {
                         year: selectedDate.year,
@@ -56,6 +65,7 @@ const dateFunc = () => {
                         alert('서버와의 통신 중 문제가 발생했습니다. 나중에 다시 시도해주세요.');
                     }
                 });
+                localStorage.setItem("selected_date", JSON.stringify(selected_date));
 
                 console.log(`선택한 날짜: ${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`);
             } else {
@@ -64,12 +74,21 @@ const dateFunc = () => {
                 selectedDate.year = year.innerHTML;
                 selectedDate.month = month.innerHTML;
                 selectedDate.day = i.querySelector('.date-itm').innerText.trim();
+                if (selectedDate.day.length === 1) {
+                    selectedDate.day = '0' + selectedDate.day
+                }
+                if (selectedDate.month.length === 1) {
+                    selectedDate.month = '0' + selectedDate.month
+                }
+
                 resvTab.classList.add('open');
-                console.log(selDate)
+
+                const selected_date = `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
+
 
                 // JavaScript에서 Ajax 요청 보내기
                 $.ajax({
-                    url: '/logs/write/',
+                    url: 'write/',
                     method: 'GET',
                     data: {
                         year: selectedDate.year,
@@ -85,11 +104,14 @@ const dateFunc = () => {
                     }
                 });
 
-                const selected_date = `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
+                localStorage.setItem("selected_date", JSON.stringify(selected_date));
+
+                // $.post('/logs/write/', { selected_date: `${selectedDate.year}${selectedDate.month}${selectedDate.day}` })
+
                 // window.location.href = `write.html?data=${encodeURIComponent(selected_date)}`;
 
 
-                console.log(`선택한 날짜: ${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`);
+                console.log(selected_date);
             }
         });
     });
