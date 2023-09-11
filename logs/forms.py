@@ -174,6 +174,7 @@ class LogForm(forms.ModelForm):
     )
 
     visibility = forms.ChoiceField(label="공개 범위", choices=VISIBILITY_CHOICES)
+    new_date = forms.HiddenInput()
 
     def __init__(self, *args, **kwargs):
         super(LogForm, self).__init__(*args, **kwargs)

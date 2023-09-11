@@ -35,11 +35,14 @@ def write(request):
     if request.method == "POST":
         form = LogForm(request.POST, request.FILES)
         if form.is_valid():
-            print(request.POST.get("selected_date"))
+            selected_date = request.POST.get("new_date", None)
+            print(selected_date)
             log = form.save(commit=False)
             log.owner = request.user
             print(log.new_date)
-            # log.new_date = selected_date  # Log 모델의 date 필드에 선택한 날짜를 저장
+            log.new_date = selected_date  # Log 모델의 date 필드에 선택한 날짜를 저장
+            print(log.new_date)
+
             log.save()
 
         return redirect("logs:calendar")

@@ -72,22 +72,52 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
   const selected_date = JSON.parse(localStorage.getItem("selected_date"));
 
   document.querySelector('input[name="new_date"]').value = selected_date;
   const my = document.querySelector('input[name="new_date"]');
   console.log(my)
-  // 이전 URL에서 받은 selected_date 값을 변수에 저장
   console.log(selected_date)
-var selectedDate = selected_date; // 예시로 선택한 날짜
 
 // 보낼 데이터
 var postData = {
-    selected_date: selectedDate
+    new_date: selected_date
 };
 console.log(postData)
+
 // Ajax POST 요청 보내기
-{% comment %} $.ajax({
+$.ajax({
     url: "/logs/write/", // 요청을 보낼 URL
     method: "POST", // POST 메서드 사용
     data: postData, // 보낼 데이터
@@ -101,7 +131,7 @@ console.log(postData)
         console.log("오류가 발생했습니다.");
         console.log(error);
     }
-});  {% endcomment %}
+});  
 </script>
 
 {% endblock content %}
