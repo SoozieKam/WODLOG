@@ -48,6 +48,10 @@ const dateFunc = () => {
                 console.log(selDate)
                 const selected_date = `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
 
+                document.getElementById("year").textContent = selectedDate.year;
+                document.getElementById("month").textContent = selectedDate.month;
+                document.getElementById("date").textContent = selectedDate.day;
+
 
                 // // JavaScript에서 Ajax 요청 보내기
                 $.ajax({
@@ -68,6 +72,48 @@ const dateFunc = () => {
                 localStorage.setItem("selected_date", JSON.stringify(selected_date));
 
                 console.log(`선택한 날짜: ${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`);
+
+
+                // 해당 날짜 일지 불러오기 
+                $.ajax({
+                    url: "/logs/get-logs/", // 요청할 URL
+                    method: "GET",     // GET 요청
+                    dataType: "json",  // JSON 데이터 형식으로 응답을 기대합니다.
+                    success: function (data) {
+                        // 서버에서 받아온 JSON 데이터는 'data' 변수에 들어옵니다.
+                        console.log(data);
+
+                        // JSON 파싱 (JSON 문자열을 객체로 파싱!!)
+                        // const logs = data.logs;
+                        // console.log(logs)
+                        const logs = JSON.parse(data.logs);
+                        console.log(logs)
+
+                        // logs 배열 순회하며 title과 date 출력
+                        for (let i = 0; i < logs.length; i++) {
+                            const log = logs[i];
+                            console.log("Log Title:", log["title"], "Date: ", log["new_date"]);
+                        }
+
+                        const tableBody = document.querySelector("#logTable tbody");
+
+                        logs.forEach(function (log) {
+                            if (log.new_date === selected_date) {
+                                const row = document.createElement("tr");
+                                const cell1 = document.createElement("td");
+                                cell1.textContent = log.title;
+                                const cell2 = document.createElement("td");
+                                cell2.textContent = log.conditioning;
+
+                                row.appendChild(cell1);
+                                row.appendChild(cell2);
+
+                                tableBody.appendChild(row);
+                            }
+                        });
+                    }
+                });
+
             } else {
                 i.classList.add('selected');
                 selDate.push([year.innerHTML, month.innerHTML, i.innerHTML]);
@@ -84,6 +130,12 @@ const dateFunc = () => {
                 resvTab.classList.add('open');
 
                 const selected_date = `${selectedDate.year}${selectedDate.month}${selectedDate.day}`
+
+                document.getElementById("year").textContent = selectedDate.year;
+                document.getElementById("month").textContent = selectedDate.month;
+                document.getElementById("date").textContent = selectedDate.day;
+                // document.getElementById("selected_date").innerHTML = selected_date
+
 
 
                 // JavaScript에서 Ajax 요청 보내기
@@ -106,16 +158,57 @@ const dateFunc = () => {
 
                 localStorage.setItem("selected_date", JSON.stringify(selected_date));
 
-                // $.post('/logs/write/', { selected_date: `${selectedDate.year}${selectedDate.month}${selectedDate.day}` })
-
-                // window.location.href = `write.html?data=${encodeURIComponent(selected_date)}`;
-
-
                 console.log(selected_date);
+
+                // 해당 날짜 일지 불러오기 
+                $.ajax({
+                    url: "/logs/get-logs/", // 요청할 URL
+                    method: "GET",     // GET 요청
+                    dataType: "json",  // JSON 데이터 형식으로 응답을 기대합니다.
+                    success: function (data) {
+                        // 서버에서 받아온 JSON 데이터는 'data' 변수에 들어옵니다.
+                        console.log(data);
+
+                        // JSON 파싱 (JSON 문자열을 객체로 파싱!!)
+                        // const logs = data.logs;
+                        // console.log(logs)
+                        const logs = JSON.parse(data.logs);
+                        console.log(logs)
+
+                        // logs 배열 순회하며 title과 date 출력
+                        for (let i = 0; i < logs.length; i++) {
+                            const log = logs[i];
+                            console.log("Log Title:", log["title"], "Date: ", log["new_date"]);
+                        }
+
+                        const tableBody = document.querySelector("#logTable tbody");
+
+                        logs.forEach(function (log) {
+                            if (log.new_date === selected_date) {
+                                const row = document.createElement("tr");
+                                const cell1 = document.createElement("td");
+                                cell1.textContent = log.title;
+                                const cell2 = document.createElement("td");
+                                cell2.textContent = log.conditioning;
+
+                                row.appendChild(cell1);
+                                row.appendChild(cell2);
+
+                                tableBody.appendChild(row);
+                            }
+                        });
+                    }
+                });
+
+                // 클릭하면 해당 로그 정보 보여주는 페이지 불러오기 
+
+
             }
         });
     });
 };
+
+
 
 // JavaScript에서 Ajax 요청 보내기
 // $.ajax({

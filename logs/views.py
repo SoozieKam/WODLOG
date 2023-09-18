@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import *
 from .forms import *
 from wods.models import Exercise
 from wods.models import Wod
 from datetime import date
+from django.core import serializers
+import json
 
 # Create your views here.
 
@@ -11,8 +14,8 @@ from datetime import date
 def calendar(request):
     today = date.today()
     logs = Log.objects.all()
-    selected_date = request.GET.get("selected_date")
-    request.session["selected_date"] = selected_date
+    # selected_date = request.GET.get("selected_date")
+    # request.session["selected_date"] = selected_date
 
     # selected_date = request.POST.get("selected_date")
     # print(selected_date)
@@ -20,9 +23,32 @@ def calendar(request):
     context = {
         "today": today,
         "logs": logs,
-        #    "selected_date": selected_date,
+        # "selected_date": selected_date,
     }
     return render(request, "logs/calendar.html", context)
+
+
+def get_logs(request):
+    # 로그 데이터를 가져옵니다.
+    logs = Log.objects.all()
+
+    log_data = []
+    for log in logs:
+        log_data.append(
+            {
+                "title": log.title,
+                "new_date": log.new_date,
+                # 필요한 다른 필드들도 추가할 수 있습니다.
+            }
+        )
+
+    # 파이썬 딕셔너리를 JSON 문자열로 직렬화합니다.
+    serialized_logs = json.dumps(log_data)
+    # 데이터를 JSON 형식으로 직렬화합니다.
+    # serialized_logs = serializers.serialize("json", log_data)
+
+    # JsonResponse를 사용하여 직렬화된 데이터를 클라이언트에 반환합니다.
+    return JsonResponse({"logs": serialized_logs}, safe=False)
 
 
 def write(request):

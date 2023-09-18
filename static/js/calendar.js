@@ -20,8 +20,7 @@ const renderCalender = () => {
     const thisDates = [...Array(TLDate + 1).keys()].slice(1);
     const nextDates = [];
 
-    console.log(TLDate)
-    console.log(thisDates)
+
     if (PLDay !== 6) {
         for (let i = 0; i < PLDay + 1; i++) {
             prevDates.unshift(PLDate - i);
@@ -85,3 +84,5 @@ const goToday = () => {
     date = new Date();
     renderCalender();
 };
+
+
