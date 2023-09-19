@@ -1,7 +1,21 @@
 
 const resvTab = document.querySelector('.resv-wrapper');
 const exitBtn = document.querySelector('.resv-close');
-exitBtn.addEventListener('click', () => { resvTab.classList.remove('open'); });
+exitBtn.addEventListener('click', function () {
+    // 테이블 내용 초기화
+    const tableBody = document.querySelector("#logTable tbody");
+    tableBody.innerHTML = "";
+
+    // 선택한 날짜 정보 초기화
+    document.getElementById("year").textContent = "";
+    document.getElementById("month").textContent = "";
+    document.getElementById("date").textContent = "";
+
+    // 로컬 스토리지에서 선택한 날짜 정보 삭제
+    localStorage.removeItem("selected_date");
+
+    resvTab.classList.remove('open');
+});
 
 // const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
 
@@ -23,6 +37,10 @@ const dateFunc = () => {
     const month = document.querySelector('.month');
     dates.forEach((i) => {
         i.addEventListener('click', () => {
+            // 이전에 선택된 날짜의 로그 테이블 초기화
+            const tableBody = document.querySelector("#logTable tbody");
+            tableBody.innerHTML = "";
+
             if (i.classList.contains('other') || i.classList.contains('selected')) {
                 dates.forEach((ig) => { ig.classList.remove('selected'); });
                 i.classList.remove('selected');
@@ -95,7 +113,6 @@ const dateFunc = () => {
                             console.log("Log Title:", log["title"], "Date: ", log["new_date"]);
                         }
 
-                        const tableBody = document.querySelector("#logTable tbody");
 
                         logs.forEach(function (log) {
                             if (log.new_date === selected_date) {
@@ -181,18 +198,22 @@ const dateFunc = () => {
                             console.log("Log Title:", log["title"], "Date: ", log["new_date"]);
                         }
 
-                        const tableBody = document.querySelector("#logTable tbody");
 
                         logs.forEach(function (log) {
                             if (log.new_date === selected_date) {
+                                console.log("date 일치!" + selected_date)
                                 const row = document.createElement("tr");
                                 const cell1 = document.createElement("td");
                                 cell1.textContent = log.title;
                                 const cell2 = document.createElement("td");
                                 cell2.textContent = log.conditioning;
+                                const cell3 = document.createElement("td");
+                                cell3.textContent = log.illness + log.illness_range
 
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
+                                row.appendChild(cell3);
+
 
                                 tableBody.appendChild(row);
                             }
@@ -200,7 +221,12 @@ const dateFunc = () => {
                     }
                 });
 
-                // 클릭하면 해당 로그 정보 보여주는 페이지 불러오기 
+
+
+
+
+
+
 
 
             }

@@ -21,7 +21,7 @@ class Log(models.Model):
             MaxValueValidator(limit_value=10),
         ],
     )
-    new_date = models.CharField(max_length=8, default="20230910")
+    new_date = models.CharField(max_length=8, default="20230910", unique=True)
     wod = models.ForeignKey(Wod, on_delete=models.SET_NULL, blank=True, null=True)
     exercise = models.ForeignKey(
         Exercise, on_delete=models.SET_NULL, blank=True, null=True

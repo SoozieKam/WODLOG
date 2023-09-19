@@ -7,6 +7,7 @@ from wods.models import Wod
 from datetime import date
 from django.core import serializers
 import json
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -35,10 +36,28 @@ def get_logs(request):
     log_data = []
     for log in logs:
         log_data.append(
-            {
+            {  # 주석 처리한 건 JSON serializable하지 않은 필드들 .. 추후 해결
                 "title": log.title,
+                "today_condition": log.today_condition,
+                "illness": log.illness,
+                "illness_range": log.illness_range,
                 "new_date": log.new_date,
-                # 필요한 다른 필드들도 추가할 수 있습니다.
+                "warmup": log.warmup,
+                "conditioning": log.conditioning,
+                "strength": log.strength,
+                "weightlifting": log.weightlifting,
+                "accessories": log.accessories,
+                # PR한 동작
+                # "exercise": log.exercise,
+                # "weight": log.weight,
+                "weight_unit": log.weight_unit,
+                # PR한 와드
+                # "wod": log.wod,
+                # "time": log.time,
+                "time_unit": log.time_unit,
+                # "image": log.image,
+                # "video": log.video,
+                "visibility": log.visibility,
             }
         )
 
@@ -49,6 +68,37 @@ def get_logs(request):
 
     # JsonResponse를 사용하여 직렬화된 데이터를 클라이언트에 반환합니다.
     return JsonResponse({"logs": serialized_logs}, safe=False)
+
+
+def detail(request, log_id):
+    log = get_object_or_404(Log, pk=log_id)
+
+    # log = Log.objects.filter(pk=log_id)
+    log_data = {
+        "title": log.title,
+        "today_condition": log.today_condition,
+        "illness": log.illness,
+        "illness_range": log.illness_range,
+        "new_date": log.new_date,
+        "warmup": log.warmup,
+        "conditioning": log.conditioning,
+        "strength": log.strength,
+        "weightlifting": log.weightlifting,
+        "accessories": log.accessories,
+        # PR한 동작
+        "exercise": log.exercise,
+        "weight": log.weight,
+        "weight_unit": log.weight_unit,
+        # PR한 와드
+        "wod": log.wod,
+        "time": log.time,
+        "time_unit": log.time_unit,
+        "image": log.image,
+        "video": log.video,
+        "visibility": log.visibility,
+    }
+
+    return JsonResponse(log_data)
 
 
 def write(request):

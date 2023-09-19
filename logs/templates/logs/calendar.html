@@ -30,7 +30,7 @@
         <div class="dates"></div>
     </div>
   
-    <!-- 예약 창 -->
+    <!-- 운동일지 디테일 창 -->
     <div class="resv-wrapper">
       <div class="resv-bg">
         <button class="resv-close">X</button>
@@ -41,26 +41,18 @@
             <span id="date"></span>일
             {% comment %} <span id="selected_date"></span> {% endcomment %}
           </div>
+
+          {% comment %} 해당 날짜에 일지 있으면 아래 버튼 숨김해야 함{% endcomment %}
           <button> 
             <a href="{% url 'logs:write'%} ">일지 쓰기</a>
-          </button> 
+          </button>
+           
           <h3>
               운동 목록 
           </h3>
-          <table class="table table-borderless resv-list row" id="logTable">
+          <table class="table table-borderless resv-list col" id="logTable">
             
             <tbody>
-              {% comment %} {% for log in logs %}
-                {% if log.new_date == selected_date %}
-
-                  <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                      <td>{{log.title}}</td>
-                      <td>{{log.conditioning}}</td>
-                  </tr>
-                {% endif %}
-              {% endfor %} {% endcomment %}
-              
               
             </tbody>               
           </table>                    
@@ -77,6 +69,10 @@
           <input class="resv_set time" type="time" name="" id="">
           <button class="resv_btn purchase">예약</button>
           <button class="resv_btn cancel">예약취소</button>
+        </div>
+
+        <div class="log-item" data-log-id="{{ log.id }}">
+          <!-- 로그 정보 표시 -->
         </div>
       </div>
     </div>
