@@ -64,10 +64,12 @@ def get_logs(request):
     # 파이썬 딕셔너리를 JSON 문자열로 직렬화합니다.
     serialized_logs = json.dumps(log_data)
     # 데이터를 JSON 형식으로 직렬화합니다.
-    # serialized_logs = serializers.serialize("json", log_data)
+    serialized_logs_2 = serializers.serialize("json", logs)
 
     # JsonResponse를 사용하여 직렬화된 데이터를 클라이언트에 반환합니다.
-    return JsonResponse({"logs": serialized_logs}, safe=False)
+    return JsonResponse(
+        {"logs": serialized_logs, "another": serialized_logs_2}, safe=False
+    )
 
 
 def detail(request, log_id):

@@ -73,7 +73,7 @@ class LogForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "rows": 2,
+                "rows": 5,
                 "pattern": ".{1,}",
                 "required": "true",
                 "class": "invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer",
@@ -87,7 +87,7 @@ class LogForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "rows": 2,
+                "rows": 5,
                 "pattern": ".{1,}",
                 "required": "true",
                 "class": "invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer",
@@ -101,7 +101,7 @@ class LogForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "rows": 2,
+                "rows": 5,
                 "pattern": ".{1,}",
                 "required": "true",
                 "class": "invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer",
@@ -115,7 +115,7 @@ class LogForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "rows": 2,
+                "rows": 5,
                 "pattern": ".{1,}",
                 "required": "true",
                 "class": "invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer",
@@ -129,7 +129,7 @@ class LogForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "rows": 2,
+                "rows": 5,
                 "pattern": ".{1,}",
                 "required": "true",
                 "class": "invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer",

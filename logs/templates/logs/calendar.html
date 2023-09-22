@@ -43,20 +43,39 @@
           </div>
 
           {% comment %} 해당 날짜에 일지 있으면 아래 버튼 숨김해야 함{% endcomment %}
-          <button> 
+          <button id="writeBtn"> 
             <a href="{% url 'logs:write'%} ">일지 쓰기</a>
           </button>
            
-          <h3>
-              운동 목록 
-          </h3>
-          <table class="table table-borderless resv-list col" id="logTable">
-            
-            <tbody>
-              
-            </tbody>               
-          </table>                    
-          <h3>
+          
+          <div class="row" style="width:100%; height:500px; overflow:auto">
+            <div class="col" id="logDetail">
+ 
+            </div>
+            <div class="col" >
+              <table class="table table-borderless resv-list col" id="logTable">
+                {% comment %} <thead>
+                  <tr>
+                    <th class="th-1" scope="col"></th>
+                    <th scope="col"></th>
+                    
+                  </tr>
+                </thead> {% endcomment %}
+                <tbody>
+                  
+                </tbody>               
+              </table>  
+            </div>
+          </div>
+          
+           
+        </div>  
+      </div>
+    </div>
+    
+  </div>
+</div>               
+          {% comment %} <h3>
               프로그램 목록
           </h3>
           <div class="resv-event">
@@ -64,7 +83,7 @@
             <p>EVNET 2 <span>14:30</span></p>
             <p>EVNET 3 <span>17:30</span></p>
           </div>
-        </div>
+        
         <div class="resv_set">
           <input class="resv_set time" type="time" name="" id="">
           <button class="resv_btn purchase">예약</button>
@@ -74,11 +93,8 @@
         <div class="log-item" data-log-id="{{ log.id }}">
           <!-- 로그 정보 표시 -->
         </div>
-      </div>
-    </div>
-    
-  </div>
-</div>
+        {% endcomment %}
+      
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
